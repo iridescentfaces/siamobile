@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, Image} from 'react-native';
+import {StyleSheet, Text, View, Button, Image, StatusBar} from 'react-native';
 
 export default class Tasks extends React.Component {
 	static navigationOptions = {
@@ -15,6 +15,9 @@ export default class Tasks extends React.Component {
 	render() {
 		return(
 			<View style={styles.container}>
+			<StatusBar
+            	barStyle="dark-content"
+          	/>
 				<Text style={styles.text}>Tasks</Text>
 			</View>
 		);

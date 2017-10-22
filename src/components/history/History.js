@@ -8,7 +8,7 @@ export default class History extends React.Component {
 			<Image 
 				source={require('../../images/history_icon.png')}
 				style={{width: 30, height: 30, tintColor: 'grey'}}
-				/>
+			/>
 		)
 	}
 
