@@ -34,10 +34,9 @@ const styles = StyleSheet.create({
   logoContainer: {
     alignItems: 'center',
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
   logo: {
-
   },
   title: {
     color: '#FFF',
@@ -45,5 +44,9 @@ const styles = StyleSheet.create({
     width: 250,
     textAlign: 'center',
     opacity: 0.9,
+  },
+  formContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-start',
   }
 });
