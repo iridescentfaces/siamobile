@@ -5,13 +5,24 @@ import {
   Text,
   View
 } from 'react-native';
-import Login from './src/components/login/login';
+import { StackNavigator } from 'react-navigation';
+import Login from './src/components/login/Login';
+import Home from './src/components/tasks/Tasks';
 
+const NavigationApp = StackNavigator({
+    Login: {screen: Login},
+    Home: {screen: Home}
+  }, {
+      navigationOptions: {
+        header: false,
+      }
+  }
+);
 
 export default class App extends Component<{}> {
   render() {
     return (
-      <Login />
+      <NavigationApp/>
     );
   }
 }
@@ -21,6 +32,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#fff',
   }
 });
