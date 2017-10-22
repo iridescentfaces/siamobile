@@ -1,21 +1,21 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, Image} from 'react-native';
 
-export default class Tasks extends React.Component {
+export default class History extends React.Component {
 	static navigationOptions = {
-		tabBarLabel: 'Tasks',
+		tabBarLabel: 'History',
 		tabBarIcon: ({tintColor}) => (
 			<Image 
-				source={require('../../images/tasks_icon.png')}
+				source={require('../../images/history_icon.png')}
 				style={{width: 30, height: 30, tintColor: 'grey'}}
-			/>
+				/>
 		)
 	}
 
 	render() {
 		return(
 			<View style={styles.container}>
-				<Text style={styles.text}>Tasks</Text>
+				<Text style={styles.text}>History</Text>
 			</View>
 		);
 	}
