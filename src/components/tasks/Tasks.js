@@ -87,9 +87,9 @@ export default class Tasks extends React.Component {
       <View
         style={{
           height: 1,
-          // width: "86%",
+          width: "95%",
           backgroundColor: "#CED0CE",
-          // marginLeft: "14%"
+          marginLeft: "5%"
         }}
       />
     );

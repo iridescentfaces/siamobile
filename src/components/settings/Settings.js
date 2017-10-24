@@ -3,6 +3,8 @@ import {StyleSheet, Text, View, Button, Image,
 		FlatList} from 'react-native';
 import { List, ListItem} from 'react-native-elements';
 
+const data = [{key: '01', title: 'Logout'}]
+
 export default class Settings extends React.Component {
 	static navigationOptions = {
 		tabBarLabel: 'Settings',
@@ -13,6 +15,10 @@ export default class Settings extends React.Component {
 			/>
 		),
 
+	}
+
+	logout = () => {
+		this.props.navigation.navigate('Login');
 	}
 
 	renderSeparator = () => {
@@ -47,14 +53,23 @@ export default class Settings extends React.Component {
 		          )}
 		          keyExtractor={item => item.key}
 		          ItemSeparatorComponent={this.renderSeparator}
-		          // ListHeaderComponent={this.renderHeader}
-		          // ListFooterComponent={this.renderFooter}
-		          // onRefresh={this.handleRefresh}
-		          // refreshing={this.state.refreshing}
-		          // onEndReached={this.handleLoadMore}
-		          onEndReachedThreshold={10}
 		        />
 	      	</List>
+
+			<List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+		        {
+		          data.map((item, i) => (
+		            <ListItem
+		            	key={i}
+		            	title={item.title}
+		            	titleStyle={styles.logout}
+		            	hideChevron
+		            	onPress={this.logout}
+		            />
+		          ))
+		        }
+	      	</List>
+
 	      	</View>
 		);
 	}
@@ -75,4 +90,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: '#FFF'
 	},
+	logout: {
+		color: 'red'
+	}
 });
