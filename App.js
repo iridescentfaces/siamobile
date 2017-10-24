@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Login from './src/components/login/Login';
-import Home from './src/components/main/Main';
+import Home from './src/config/Main';
 
 const NavigationApp = StackNavigator({
     Login: {screen: Login},

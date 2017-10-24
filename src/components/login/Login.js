@@ -11,6 +11,7 @@ import {
   StatusBar,
   TouchableOpacity
 } from 'react-native';
+import { Button } from 'react-native-elements';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -138,7 +139,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: '#2980b9',
-    padding: 15
+    padding: 15,
+    
   },
   buttonText: {
     textAlign: 'center',
