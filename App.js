@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Login from './src/components/login/Login';
-import Home from './src/config/Main';
+import Router from './src/config/Router';
 
 const NavigationApp = StackNavigator({
     Login: {screen: Login},
-    Home: {screen: Home}
+    Home: {screen: Router}
   }, {
       navigationOptions: {
         header: false,
