@@ -119,7 +119,7 @@ export default class Tasks extends React.Component {
 
 render() {
     return (
-      <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+      <View style={styles.container}>
         <StatusBar barStyle="dark-content"/>
         <FlatList
           data={this.state.data}
@@ -129,7 +129,7 @@ render() {
               subtitle={item.email}
               // roundAvatar
               // avatar={{ uri: item.picture.thumbnail }}
-              containerStyle={{ borderBottomWidth: 0 }}
+              containerStyle={{ backgroundColor: '#F5F5F5', borderBottomWidth: 0 }}
               onPress={() => this.onLearnMore(item)}
             />
           )}
@@ -142,7 +142,7 @@ render() {
           onEndReached={this.handleLoadMore}
           onEndReachedThreshold={10}
         />
-      </List>
+      </View>
     );
   }
 }
@@ -150,21 +150,5 @@ render() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: '#FFF'
 	},
-	headerContainer: {
-		flexGrow: 1,
-		padding: 20,
-		flexDirection: 'row',
-	},
-	header: {
-		color: '#000',
-		fontWeight: '700',
-		fontSize: 16,
-	},
-	listContainer: {
-		flexGrow: 1
-	}
 });

@@ -18,7 +18,6 @@ export default class History extends React.Component {
 	render() {
 		return(
 			<View style={styles.container}>
-				<List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
 		        	<FlatList
 			          data={[{key: '01', item: 'a'},
 			          		 {key: '02', item: 'b'},
@@ -28,14 +27,13 @@ export default class History extends React.Component {
 			            <ListItem
 			            	title={`${item.item}`}
 			              	rightTitle={item.value}
-			              	containerStyle={{ borderBottomWidth: 0 }}
+			              	containerStyle={{ backgroundColor: '#F5F5F5', borderBottomWidth: 0 }}
 			              	hideChevron
 			            />
 			          )}
 			          keyExtractor={item => item.key}
 			          // ItemSeparatorComponent={this.renderSeparator}
 			        />
-	      		</List>
 			</View>
 		);
 	}
@@ -43,7 +41,7 @@ export default class History extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
 	},
 	text: {
 		color: '#000'
