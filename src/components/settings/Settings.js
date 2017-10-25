@@ -7,6 +7,7 @@ const data = [{key: '01', title: 'Logout'}]
 
 export default class Settings extends React.Component {
 	static navigationOptions = {
+	    title: `Settings`,
 		tabBarLabel: 'Settings',
 		tabBarIcon: ({tintColor}) => (
 			<Image 

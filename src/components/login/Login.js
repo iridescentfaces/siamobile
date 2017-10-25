@@ -22,16 +22,16 @@ export default class Login extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this._loadInitialState().done();
-  }
+  // componentDidMount() {
+  //   this._loadInitialState().done();
+  // }
 
-  _loadInitialState = async () => {
-    var value = await AsyncStorage.getItem('user');
-    if (value !== null) {
-      this.props.navigation.navigate('Home');
-    }
-  }
+  // _loadInitialState = async () => {
+  //   var value = await AsyncStorage.getItem('user');
+  //   if (value !== null) {
+  //     this.props.navigation.navigate('Home');
+  //   }
+  // }
 
   render() {
     return (
@@ -79,30 +79,35 @@ export default class Login extends React.Component {
   login = () => {
       this.props.navigation.navigate('Home');
 
-      // fetch('http://121.7.65.133:3000/users', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     username: this.state.username,
-      //     password: this.state.password,
-      //   })
-      // })
+  //     fetch('http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/auth', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         username: this.state.username,
+  //         password: this.state.password,
+  //       })
+  //     })
 
-      // .then((response) => response.json())
-      // .then((res) => {
-      //   if (res.success === true) {
-      //     AsyncStorage.setItem('user', res.user)
-      //     this.props.navigation.navigate('Tasks')
-      //   }
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.hasOwnProperty('token')) {
+  //         // AsyncStorage.setItem('user', this.state.user)
+  //         // Store Authentication Token
+  //         this.props.navigation.navigate('Tasks')
+  //       }
 
-      //   else {
-      //     alert(res.message);
-      //   }
-      // })
-      // .done();
+  //       else {
+  //         console.log(res);
+  //         console.log(this.state.username);
+  //         console.log(this.state.password);
+  //         alert("Invalid Login Credentials");
+
+  //       }
+  //     })
+  //     .done();
   }
 }
 

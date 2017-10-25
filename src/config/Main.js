@@ -13,9 +13,6 @@ import TaskDetail from '../components/tasks/TaskDetail';
 export const TaskStack = StackNavigator({
   Tasks: {
     screen: Tasks,
-    navigationOptions: {
-        title: 'Tasks'
-    }
   },
   TaskDetail: {
     screen: TaskDetail,
@@ -25,18 +22,12 @@ export const TaskStack = StackNavigator({
 export const SettingsStack = StackNavigator({
   Settings: {
     screen: Settings,
-    navigationOptions: {
-      title: 'Settings'
-    }
   }
 });
 
 export const HistoryStack = StackNavigator({
   History: {
     screen: History,
-    navigationOptions: {
-      title: 'History'
-    }
   }
 });
 

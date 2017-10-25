@@ -5,6 +5,7 @@ import { List, ListItem} from 'react-native-elements';
 
 export default class History extends React.Component {
 	static navigationOptions = {
+		title: `History`,
 		tabBarLabel: 'History',
 		tabBarIcon: ({tintColor}) => (
 			<Image 

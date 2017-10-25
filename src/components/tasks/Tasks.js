@@ -4,7 +4,8 @@ import {StyleSheet, Text, View, Button, Image, StatusBar,
 import { List, ListItem, SearchBar} from 'react-native-elements';
 
 export default class Tasks extends React.Component {
-	static navigationOptions = {
+	static navigationOptions = ({ navigation }) => ({
+    title: `Tasks`,
 		tabBarLabel: 'Tasks',
 		tabBarIcon: ({tintColor}) => (
 			<Image 
@@ -12,7 +13,7 @@ export default class Tasks extends React.Component {
 				style={{width: 30, height: 30, tintColor: 'grey'}}
 			/>
 		)
-	}
+	});
 
 	constructor(props) {
 		super(props);
@@ -38,6 +39,7 @@ export default class Tasks extends React.Component {
 	makeRemoteRequest = () => {
     const { page, seed } = this.state;
     // console.log(this.state);
+    // headers to include "Authorisation: Token (token)"
     const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
     this.setState({ loading: true });
 
