@@ -135,21 +135,23 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'flex-start',
   },
-    input: {
+  input: {
     height: 40,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     marginBottom: 10,
     color: '#FFF',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    borderRadius: 3,
   },
   buttonContainer: {
     backgroundColor: '#2980b9',
     padding: 15,
-    
+    borderRadius: 3,
   },
   buttonText: {
     textAlign: 'center',
     color: '#FFFFFF',
-    fontWeight: '700'
+    fontWeight: '500',
+    fontSize: 16
   }
 });
