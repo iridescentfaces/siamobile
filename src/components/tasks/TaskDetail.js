@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, Image,
-				TouchableOpacity, FlatList} from 'react-native';
+				TouchableOpacity, FlatList, ScrollView, TextInput} from 'react-native';
 import { List, ListItem} from 'react-native-elements';
 
 const data = {
@@ -90,7 +90,7 @@ export default class TaskDetail extends React.Component {
 				/>;
 			},
 			headerRight: (
-				<Button title="Save"
+				<Button title="Update"
 												onPress={() => params.handleSave()} />
 			)
 		};	
@@ -135,6 +135,14 @@ export default class TaskDetail extends React.Component {
 			);
 		});
 
+		historyCreated = data.updates.map(function(update) {
+			return (
+				// <View key={update.created} style={styles.historyContent}>
+					`Created on ${update.created}`
+				// </View>
+			);
+		});
+
 		sparesContents = data.spares.map(function(spare) {
 			return (
 				// <View key={spare.spare.partID} style={styles.historyContent}>
@@ -142,6 +150,17 @@ export default class TaskDetail extends React.Component {
 				// </View>
 			);
 		})
+
+		let priorityValue = "null";
+
+		if (priority === 1) {
+				priorityValue = "High";
+		} else if (priority === 2) {
+				priorityValue = "Extremely High";
+		} else {
+				priorityValue = "Normal";
+		}
+
 		const detail01 = [
 			{key: '01', title: "Defect", value: header},
 			{key: '02', title: "Description", value: description},
@@ -149,7 +168,7 @@ export default class TaskDetail extends React.Component {
 		]
 
 		const detail02 = [
-			{key: '02', title: "Priority", value: priority},
+			{key: '02', title: "Priority", value: priorityValue},
 			{key: '03', title: "ETA", value: ETA},
 			{key: '04', title: "ETD", value: ETD},
 			{key: '05', title: "Reg. No.", value: regn},
@@ -158,7 +177,7 @@ export default class TaskDetail extends React.Component {
 		]
 
 		const detail03 = [
-			{key: '09', title: "History", value: historyContents},
+			{key: '09', title: "History", value: historyContents, created: historyCreated},
 		]
 
 		const detail04 = [
@@ -167,38 +186,82 @@ export default class TaskDetail extends React.Component {
 
 		return(
 			<View style={styles.container}>
-				<View style={styles.detailsContainer}>
+				<ScrollView style={styles.detailsContainer}>
 					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
 													margin: 5 }}>Defect</Text>
-					<FlatList 
-						data={detail01}
-						renderItem={({item}) => (
-							<ListItem
-        				title={`${item.title}`}
-      					rightTitle={`${item.value}`}
-      					containerStyle={{ backgroundColor: '#FFF', borderBottomWidth: 0 }}
-      					hideChevron
-							/>
-						)}
-						keyExtractor={item => item.key}
-          	ItemSeparatorComponent={this.renderSeparator}
-					/>
+					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
+						{
+							detail01.map((item, i) => (
+		            <ListItem
+		            	key={i}
+		            	title={`${item.title}`}
+		            	rightTitle={`${item.value}`}
+		            	titleStyle={{ color: 'black' }}
+		            	rightTitleStyle={{ color: 'black' }}
+		            	hideChevron
+		            />
+	            ))
+						}
+					</List>
 					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
 													margin: 5 }}>Information</Text>
-					<FlatList 
-						data={detail02}
-						renderItem={({item}) => (
-							<ListItem
-        				title={`${item.title}`}
-      					rightTitle={`${item.value}`}
-      					containerStyle={{ backgroundColor: '#FFF', borderBottomWidth: 0 }}
-      					hideChevron
-							/>
-						)}
-						keyExtractor={item => item.key}
-          	ItemSeparatorComponent={this.renderSeparator}
-					/>
-				</View>
+					
+					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
+						{
+							detail02.map((item, i) => (
+		            <ListItem
+		            	key={i}
+		            	title={`${item.title}`}
+		            	rightTitle={`${item.value}`}
+		            	titleStyle={{ color: 'black' }}
+		            	rightTitleStyle={{ color: 'black' }}
+		            	hideChevron
+		            />
+	            ))
+						}
+					</List>
+					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
+													margin: 5 }}>History</Text>
+					
+					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
+						{
+							detail03.map((item, i) => (
+		            <ListItem
+		            	key={i}
+		            	title={`${item.value}`}
+		            	subtitle={`${item.created}`}
+		            	titleStyle={{ color: 'black' }}
+		            	// rightTitleStyle={{ color: 'black' }}
+		            	hideChevron
+		            />
+	            ))
+						}
+					</List>
+					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
+													margin: 5 }}>Spares</Text>
+					
+					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
+						{
+							detail04.map((item, i) => (
+		            <ListItem
+		            	key={i}
+		            	title={`${item.value}`}
+		            	// rightTitle={`${item.value}`}
+		            	titleStyle={{ color: 'black' }}
+		            	// rightTitleStyle={{ color: 'black' }}
+		            	hideChevron
+		            />
+	            ))
+						}
+					</List>
+					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
+													margin: 5 }}>Additional Details</Text>
+          <TextInput
+            placeholder="I would like to update that..."
+            placeholderTextColor="rgba(255,255,255, 0.7)"
+            style={styles.input}
+          />
+				</ScrollView>
 			</View>
 		);
 	}
@@ -213,20 +276,11 @@ const styles = StyleSheet.create({
 		alignSelf: 'stretch',
 	},
 	detailsContainer: {
-		flex: 9,
-	},
-	buttonContainer: {
 		flex: 1,
-		alignItems: 'center',
 	},
-	button: {
-    backgroundColor: '#2980b9',
-    padding: 15,
-    borderRadius: 4,
+  input: {
+    height: 150,
+    backgroundColor: '#FFF',
+    color: '#000',
   },
-  buttonText: {
-    textAlign: 'center',
-    color: '#FFFFFF',
-    fontWeight: '700'
-  }
 });
