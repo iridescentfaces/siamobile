@@ -167,9 +167,12 @@ render() {
           data={this.state.data}
           renderItem={({ item }) => (
             date = `${item.plane.ETD}`.slice(5,10),
+            month = date.slice(0, 2),
+            day = date.slice(3, 5),
+            formatted_date = day.concat("/", month),
             time = `${item.plane.ETD}`.slice(-9,-4),
             <ListItem
-              title={time.concat("  ", date)}
+              title={time.concat("  ", formatted_date)}
               titleStyle={{ fontWeight: '700', fontSize: 20 }}
               rightTitle={(item.priority === 1) ? `High` : (item.priority === 2) ? `Critical` : `Normal` }
               rightTitleStyle={this.colorStyle(item.priority)}
