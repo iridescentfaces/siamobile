@@ -1,82 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, Image,
+import {StyleSheet, Text, View, Button, Image, PixelRatio, KeyboardAvoidingView,
 				TouchableOpacity, FlatList, ScrollView, TextInput} from 'react-native';
 import { List, ListItem} from 'react-native-elements';
-
-const data = {
-	"id": 5,
-	"header": "SEAT 24D LEGREST INOP",
-	"description": "nil",
-	"plane":
-	{
-		"regn": "SWT",
-		"acType": "77W",
-		"inbound": 238,
-		"outbound": 237,
-		"ETA": "2017-10-26T12:00:00Z",
-		"ETD": "2017-10-26T16:00:00Z",
-		"bay": "A13/A13/C20"
-	},
-	"techsAssigned": [
-	{
-		"user":
-		{
-			"username": "testing",
-			"first_name": "John",
-			"last_name": "Alpaca",
-			"last_login": null
-		},
-		"user_type": 2,
-		"avatar": null,
-		"lon": null,
-		"lat": null
-	}],
-	"dateReported": "2017-10-25T16:38:40.004399Z",
-	"dateResolved": null,
-	"closed": false,
-	"classCode": "premium",
-	"category": "seats",
-	"img": null,
-	"priority": 0,
-	"spares": [
-	{
-		"spare":
-		{
-			"partID": "XYZ123",
-			"name": "chair",
-			"stock": 10
-		},
-		"quantity": 1,
-		"drawn": false
-	},
-	{
-		"spare":
-		{
-			"partID": "XYZ124",
-			"name": "table",
-			"stock": 10
-		},
-		"quantity": 1,
-		"drawn": false
-	}],
-	"updates": [
-	{
-		"author":
-		{
-			"user":
-			{
-				"username": "testing",
-				"first_name": "John",
-				"last_name": "Alpaca",
-				"last_login": null
-			},
-			"user_type": 2,
-			"avatar": null
-		},
-		"details": "Whole chair broken, need extra parts",
-		"created": "2017-10-25T16:38:40.018867Z"
-	}]
-}
+import ImagePicker from 'react-native-image-picker';
 
 export default class TaskDetail extends React.Component {
 	static navigationOptions = ({ navigation }) => {
@@ -103,8 +29,59 @@ export default class TaskDetail extends React.Component {
 		};	
 	};
 
+	state = {
+		image: null,
+		message: null,
+		error: null,
+	}
+
 	saveDetails = (first) => {
-		alert('Update Details');
+		console.log(this.state.message);
+
+    const { image, message } = this.state;
+    const { id } = this.props.navigation.state.params;
+    console.log(id);
+    // console.log(this.state);
+    // headers to include "Authorisation: Token (token)"
+    const url = `http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/updatedefect/${id}`;
+    const second_url = `http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/update/${id}`;
+    // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+
+    fetch(url, {
+    	method: 'PATCH',
+    	headers: {
+    		'Accept': 'application/json',
+    		'Content-Type': 'multipart/formdata',
+    	},
+    	body: JSON.stringify({
+    		closed: true,
+    		img: image,
+    	})
+    })
+      .then(res => res.json())
+      .then(res => {
+      	console.log("Hi");
+      })
+      .then(res => {
+  	    fetch(second_url, {
+		    	method: 'PUT',
+		    	headers: {
+		    		'Accept': 'application/json',
+		    		'Content-Type': 'application/json',
+		    	},
+		    	body: JSON.stringify({
+		    		author: 4,
+		    		details: message,
+		    	})
+		    })
+      })
+      .then(res => {
+        console.log(res);
+        { this.state.error === null ? alert('Updated') : alert(this.state.error); }
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
 		// this.props.navigation.navigate('TaskUpdate', first);
 	}
 
@@ -125,46 +102,53 @@ export default class TaskDetail extends React.Component {
 	);
 	};
 
+	uploadImage = () => {
+			const options = {
+			  title: 'Upload Photo',
+			  storageOptions: {
+			    skipBackup: true,
+			    path: 'images'
+			  }
+			};
+			ImagePicker.showImagePicker(options, (response) => {
+			  console.log('Response = ', response);
+
+			  if (response.didCancel) {
+			    console.log('User cancelled image picker');
+			  }
+			  else if (response.error) {
+			    console.log('ImagePicker Error: ', response.error);
+			  }
+			  else if (response.customButton) {
+			    console.log('User tapped custom button: ', response.customButton);
+			  }
+			  else {
+			    let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+    // You can also display the image using data:
+    // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+				  this.setState({
+				   	image: source
+				  });
+      	}
+			});
+
+		}
+
 	render() {
-		// const data = this.props.navigation.state.params;
+		const data = this.props.navigation.state.params;
 		const {header, description, closed, img, priority} = data;
 		const {regn, acType, ETA, ETD, bay, ... others} = data.plane;
 		const history = data.updates;
 		const spares = data.spares;
-		// const {first, last, title} = this.props.navigation.state.params.name;
-		console.log(this.props.navigation.state.params);
-
-		
-		historyContents = data.updates.map(function(update) {
-			return (
-				// <View key={update.created} style={styles.historyContent}>
-					`${update.details}`
-				// </View>
-			);
-		});
-
-		historyCreated = data.updates.map(function(update) {
-			return (
-				// <View key={update.created} style={styles.historyContent}>
-					`Created on ${update.created}`
-				// </View>
-			);
-		});
-
-		sparesContents = data.spares.map(function(spare) {
-			return (
-				// <View key={spare.spare.partID} style={styles.historyContent}>
-					`${spare.quantity} ${spare.spare.name}`
-				// </View>
-			);
-		})
+		// console.log(this.props.navigation.state.params);
 
 		let priorityValue = "null";
 
 		if (priority === 1) {
-				priorityValue = "High";
-		} else if (priority === 2) {
 				priorityValue = "Critical";
+		} else if (priority === 2) {
+				priorityValue = "High";
 		} else {
 				priorityValue = "Normal";
 		}
@@ -172,14 +156,14 @@ export default class TaskDetail extends React.Component {
 		const detail01 = [
 			{key: '01', title: "Defect", value: header},
 			{key: '02', title: "Description", value: description},
-			{key: '08', title: "Pictures", value: img},
+			{key: '08', title: "Picture", value: img},
 		]
 
   	eta_date = ETA.slice(0,10);
-    eta_time = ETA.slice(-9,-4);
+    eta_time = ETA.slice(11,16);
     formatted_ETA = eta_time.concat("  ", eta_date);
   	etd_date = ETD.slice(0,10);
-    etd_time = ETD.slice(-9,-4);
+    etd_time = ETD.slice(11,16);
     formatted_ETD = etd_time.concat("  ", etd_date);
 
 		const detail02 = [
@@ -189,18 +173,11 @@ export default class TaskDetail extends React.Component {
 			{key: '05', title: "Reg. No.", value: regn},
 			{key: '06', title: "AC Type", value: acType},
 			{key: '07', title: "Bay Location", value: bay},
-		]
-
-		const detail03 = [
-			{key: '09', title: "History", value: historyContents, created: historyCreated},
-		]
-
-		const detail04 = [
-			{key: '10', title: "Spares Required", value: sparesContents},
+			{key: '08', title: "Closed", value: closed},
 		]
 
 		return(
-			<View style={styles.container}>
+			<KeyboardAvoidingView behavior="padding" style={styles.container}>
 				<ScrollView style={styles.detailsContainer}>
 					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
 													margin: 5 }}>Defect</Text>
@@ -210,7 +187,7 @@ export default class TaskDetail extends React.Component {
 		            <ListItem
 		            	key={i}
 		            	title={`${item.title}`}
-		            	rightTitle={`${item.value}`}
+		            	rightTitle={`${item.value}`.toUpperCase()}
 		            	titleStyle={{ color: 'black' }}
 		            	rightTitleStyle={{ color: 'black' }}
 		            	hideChevron
@@ -277,11 +254,25 @@ export default class TaskDetail extends React.Component {
 													margin: 5 }}>Additional Details</Text>
           <TextInput
             placeholder="I would like to update that..."
-            placeholderTextColor="rgba(255,255,255, 0.7)"
+            placeholderTextColor="grey"
+            onChangeText={(message) => this.setState({message})}
             style={styles.input}
           />
+          <Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
+													margin: 5 }}>Upload Photo</Text>
+          <TouchableOpacity
+          	style={styles.buttonContainer}
+          	onPress={this.uploadImage}
+          >
+
+					{ this.state.image === null ? <Image source={require('../../images/upload_icon.png')} 
+																					style={{width: 30, height: 30}}/> 
+																			: <Image style={styles.ImageContainer} source={this.state.image} />
+            }
+					</TouchableOpacity>
+
 				</ScrollView>
-			</View>
+			</KeyboardAvoidingView>
 		);
 	}
 }
@@ -301,5 +292,27 @@ const styles = StyleSheet.create({
     height: 150,
     backgroundColor: '#FFF',
     color: '#000',
+    padding: 5
   },
+  ImageContainer: {
+	  borderRadius: 10,
+	  width: 300,
+	  height: 300,
+	  borderColor: '#9B9B9B',
+	  borderWidth: 1 / PixelRatio.get(),
+	  justifyContent: 'center',
+	  alignItems: 'center',
+	  backgroundColor: '#CDDC39',
+	},
+  buttonContainer: {
+    backgroundColor: '#FFF',
+    padding: 15,
+    borderRadius: 3,
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'grey',
+    fontWeight: '500',
+    fontSize: 16
+  }
 });

@@ -151,11 +151,11 @@ export default class Tasks extends React.Component {
   };
 
   colorStyle = (number) => {
-    if (number === 1) {
+    if (number === 2) {
       return {
         color: 'orange'
       }
-    } else if (number === 2) {
+    } else if (number === 1) {
       return {
         color: 'red'
       }
@@ -177,11 +177,11 @@ render() {
             month = date.slice(0, 2),
             day = date.slice(3, 5),
             formatted_date = day.concat("/", month),
-            time = `${item.plane.ETD}`.slice(-9,-4),
+            time = `${item.plane.ETD}`.slice(11,16),
             <ListItem
               title={time.concat("  ", formatted_date)}
               titleStyle={{ fontWeight: '700', fontSize: 20 }}
-              rightTitle={(item.priority === 1) ? `High` : (item.priority === 2) ? `Critical` : `Normal` }
+              rightTitle={(item.priority === 1) ? `Critical` : (item.priority === 2) ? `High` : `Normal` }
               rightTitleStyle={this.colorStyle(item.priority)}
               containerStyle={{ backgroundColor: '#FFF', borderBottomWidth: 0 }}
               onPress={() => this.onLearnMore(item)}
