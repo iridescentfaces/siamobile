@@ -24,13 +24,32 @@ export default class Tasks extends React.Component {
 			page: 1,
 			seed: 1,
 			error: null,
-			refreshing: false
+			refreshing: false,
+      latitude: null,
+      longitude: null,
 		};
 	}
 
 	componentDidMount() {
 		this.makeRemoteRequest();
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        console.log(position.coords.latitude),
+        console.log(position.coords.longitude),
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+    );
 	}
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId);
+  }
 
 	onLearnMore = (item) => {
     console.log(item);
