@@ -12,7 +12,7 @@ export default class Settings extends React.Component {
 		tabBarIcon: ({tintColor}) => (
 			<Image 
 				source={require('../../images/settings_icon.png')}
-				style={{width: 30, height: 30, tintColor: 'grey'}}
+				style={{width: 30, height: 30, tintColor: tintColor}}
 			/>
 		),
 

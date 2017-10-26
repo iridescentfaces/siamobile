@@ -10,7 +10,7 @@ export default class History extends React.Component {
 		tabBarIcon: ({tintColor}) => (
 			<Image 
 				source={require('../../images/history_icon.png')}
-				style={{width: 30, height: 30, tintColor: 'grey'}}
+				style={{width: 30, height: 30, tintColor: tintColor}}
 			/>
 		)
 	}
@@ -27,7 +27,7 @@ export default class History extends React.Component {
 			            <ListItem
 			            	title={`${item.item}`}
 			              	rightTitle={item.value}
-			              	containerStyle={{ backgroundColor: '#F5F5F5', borderBottomWidth: 0 }}
+			              	containerStyle={{ backgroundColor: '#FFF', borderBottomWidth: 0 }}
 			              	hideChevron
 			            />
 			          )}

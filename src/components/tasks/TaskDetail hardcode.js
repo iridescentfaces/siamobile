@@ -1,12 +1,12 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, Image,
-				TouchableOpacity, FlatList} from 'react-native';
+				TouchableOpacity, FlatList, Modal, TouchableHighlight} from 'react-native';
 import { List, ListItem} from 'react-native-elements';
 
 const data = {
 	"id": 5,
 	"header": "SEAT 24D LEGREST INOP",
-	"description": "nil",
+	"description": "",
 	"plane":
 	{
 		"regn": "SWT",
@@ -89,6 +89,14 @@ export default class TaskDetail extends React.Component {
 		)
 	});
 
+  state = {
+    modalVisible: false,
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
 	updateTask = (first) => {
 		this.props.navigation.navigate('TaskUpdate', first);
 	}
@@ -117,84 +125,69 @@ export default class TaskDetail extends React.Component {
 		
 		historyContents = data.updates.map(function(update) {
 			return (
-				// <View key={update.created} style={styles.historyContent}>
-					`${update.details}`
-				// </View>
+				<View key={update.created} style={styles.historyContent}>
+					<Text>{update.details}</Text>
+				</View>
 			);
 		});
 
 		sparesContents = data.spares.map(function(spare) {
 			return (
-				// <View key={spare.spare.partID} style={styles.historyContent}>
-					`${spare.quantity} ${spare.spare.name}`
-				// </View>
+				<View key={spare.spare.partID} style={styles.historyContent}>
+						<Text>{spare.quantity} {spare.spare.name}</Text>
+				</View>
 			);
 		})
-		const detail01 = [
-			{key: '01', title: "Defect", value: header},
-			{key: '02', title: "Description", value: description},
-			{key: '08', title: "Pictures", value: img},
-		]
-
-		const detail02 = [
-			{key: '02', title: "Priority", value: priority},
-			{key: '03', title: "ETA", value: ETA},
-			{key: '04', title: "ETD", value: ETD},
-			{key: '05', title: "Reg. No.", value: regn},
-			{key: '06', title: "AC Type", value: acType},
-			{key: '07', title: "Bay Location", value: bay},
-		]
-
-		const detail03 = [
-			{key: '09', title: "History", value: historyContents},
-		]
-
-		const detail04 = [
-			{key: '10', title: "Spares Required", value: sparesContents},
-		]
 
 		return(
 			<View style={styles.container}>
 				<View style={styles.detailsContainer}>
-					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
-													margin: 5 }}>Defect</Text>
-					<FlatList 
-						data={detail01}
-						renderItem={({item}) => (
-							<ListItem
-        				title={`${item.title}`}
-      					rightTitle={`${item.value}`}
-      					containerStyle={{ backgroundColor: '#FFF', borderBottomWidth: 0 }}
-      					hideChevron
-							/>
-						)}
-						keyExtractor={item => item.key}
-          	ItemSeparatorComponent={this.renderSeparator}
-					/>
-					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
-													margin: 5 }}>Information</Text>
-					<FlatList 
-						data={detail02}
-						renderItem={({item}) => (
-							<ListItem
-        				title={`${item.title}`}
-      					rightTitle={`${item.value}`}
-      					containerStyle={{ backgroundColor: '#FFF', borderBottomWidth: 0 }}
-      					hideChevron
-							/>
-						)}
-						keyExtractor={item => item.key}
-          	ItemSeparatorComponent={this.renderSeparator}
-					/>
+					<Text style={{ fontWeight: '700', 
+												 fontSize: 24, 
+												 textDecorationLine: 'underline',
+												 alignItems: 'center' }}>{header}</Text>
+					<Text style={styles.detailsText}><Text style={styles.title}>Description:</Text> {description}</Text>
+					<Text style={styles.title}>Pictures:</Text>
+					{img}
+					<Text style={styles.detailsText}><Text style={styles.title}>Priority:</Text> {priority}</Text>
+					<Text style={styles.detailsText}><Text style={styles.title}>ETA:</Text> {ETA}</Text>
+					<Text style={styles.detailsText}><Text style={styles.title}>ETD:</Text> {ETD}</Text>
+					<Text style={styles.detailsText}><Text style={styles.title}>Aircraft:</Text> {regn} {acType}</Text>
+					<Text style={styles.detailsText}><Text style={styles.title}>Bay Location:</Text> {bay}</Text>
+					<Text style={styles.title}>History: </Text>
+					{historyContents}
+					<Text style={styles.title}>Spares Required: </Text>
+					{sparesContents}
 				</View>
 				<View style={styles.buttonContainer}>
 	        <TouchableOpacity 
 	        		style={styles.button}
-	        		onPress={() => this.updateTask(data)}
+	        		onPress={() => {
+          						this.setModalVisible(true)}}
+	        		// onPress={() => this.updateTask(data)}
 	      		>
         		<Text style={styles.buttonText}>CHECKED</Text>
 					</TouchableOpacity>
 				</View>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+         <View style={{marginTop: 22}}>
+          <View>
+            <Text>Hello World!</Text>
+
+            <TouchableHighlight onPress={() => {
+              this.setModalVisible(!this.state.modalVisible)
+            }}>
+              <Text>Hide Modal</Text>
+            </TouchableHighlight>
+
+          </View>
+         </View>
+        </Modal>
 			</View>
 		);
 	}
@@ -204,6 +197,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'center',
+		backgroundColor: '#FFF'
 	},
 	historyContent: {
 		alignSelf: 'stretch',
@@ -224,5 +218,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFFFFF',
     fontWeight: '700'
+  },
+  title: {
+  	fontWeight: '700',
+  	fontSize: 16,
+  },
+  detailsText: {
+  	fontSize: 16,
   }
 });

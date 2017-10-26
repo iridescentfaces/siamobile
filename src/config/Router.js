@@ -9,6 +9,7 @@ import Tasks from '../components/tasks/Tasks';
 import History from '../components/history/History';
 import Settings from '../components/settings/Settings';
 import TaskDetail from '../components/tasks/TaskDetail';
+import TaskUpdate from '../components/tasks/TaskUpdate';
 
 export const TaskStack = StackNavigator({
   Tasks: {
@@ -16,6 +17,11 @@ export const TaskStack = StackNavigator({
   },
   TaskDetail: {
     screen: TaskDetail,
+  },
+  TaskUpdate: {
+    screen: TaskUpdate,
+    mode: 'modal',
+    animationType: 'slide',
   }
 });
 
@@ -39,7 +45,7 @@ var MainScreenNavigator = TabNavigator({
     tabBarPosition: 'bottom',
     swipeEnabled: false,
     tabBarOptions: {
-      activeTintColor: 'grey',
+      activeTintColor: 'darkblue',
       // activeBackgroundColor: 'darkblue',
       // inactiveTintColor: 'black',
       // inactiveBackgroundColor: 'blue',

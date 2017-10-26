@@ -10,7 +10,7 @@ export default class Tasks extends React.Component {
 		tabBarIcon: ({tintColor}) => (
 			<Image 
 				source={require('../../images/tasks_icon.png')}
-				style={{width: 30, height: 30, tintColor: 'grey'}}
+				style={{width: 30, height: 30, tintColor: tintColor}}
 			/>
 		)
 	});
@@ -33,6 +33,7 @@ export default class Tasks extends React.Component {
 	}
 
 	onLearnMore = (item) => {
+    console.log(item);
 		this.props.navigation.navigate('TaskDetail', item);
 	}
 
@@ -127,9 +128,7 @@ render() {
             <ListItem
               title={`${item.name.first} ${item.name.last}`}
               subtitle={item.email}
-              // roundAvatar
-              // avatar={{ uri: item.picture.thumbnail }}
-              containerStyle={{ backgroundColor: '#F5F5F5', borderBottomWidth: 0 }}
+              containerStyle={{ backgroundColor: '#FFF', borderBottomWidth: 0 }}
               onPress={() => this.onLearnMore(item)}
             />
           )}
