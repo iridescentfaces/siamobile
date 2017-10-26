@@ -79,18 +79,30 @@ const data = {
 }
 
 export default class TaskDetail extends React.Component {
-	static navigationOptions = ({ navigation }) => ({
-		tabBarLabel: 'Tasks',
-		tabBarIcon: ({tintColor}) => (
-			<Image 
-				source={require('../../images/tasks_icon.png')}
-				style={{width: 30, height: 30, tintColor: 'darkblue'}}
-			/>
-		)
-	});
+	static navigationOptions = ({ navigation }) => {
+		const { params = {} } = navigation.state
+		return {
+			tabBarLabel: 'Tasks',
+			tabBarIcon: ({tintColor}) => {
+				return <Image 
+					source={require('../../images/tasks_icon.png')}
+					style={{width: 30, height: 30, tintColor: tintColor}}
+				/>;
+			},
+			headerRight: (
+				<Button title="Save"
+												onPress={() => params.handleSave()} />
+			)
+		};	
+	};
 
-	updateTask = (first) => {
-		this.props.navigation.navigate('TaskUpdate', first);
+	saveDetails = (first) => {
+		alert('Update Details');
+		// this.props.navigation.navigate('TaskUpdate', first);
+	}
+
+	componentDidMount() {
+		this.props.navigation.setParams({ handleSave: this.saveDetails });
 	}
 
 	renderSeparator = () => {
@@ -186,14 +198,6 @@ export default class TaskDetail extends React.Component {
 						keyExtractor={item => item.key}
           	ItemSeparatorComponent={this.renderSeparator}
 					/>
-				</View>
-				<View style={styles.buttonContainer}>
-	        <TouchableOpacity 
-	        		style={styles.button}
-	        		onPress={() => this.updateTask(data)}
-	      		>
-        		<Text style={styles.buttonText}>CHECKED</Text>
-					</TouchableOpacity>
 				</View>
 			</View>
 		);
