@@ -5,6 +5,11 @@ import { List, ListItem} from 'react-native-elements';
 
 const data = [{key: '01', title: 'Logout'}]
 
+const settings =[{key: '01', item: 'Notifications', value: " "},
+		          		 {key: '02', item: 'Sounds', value: " "},
+		          		{key: '03', item: 'Languages', value: 'English'},
+		          		 ]
+
 export default class Settings extends React.Component {
 	static navigationOptions = {
 	    title: `Settings`,
@@ -45,23 +50,18 @@ export default class Settings extends React.Component {
 		return(
 			<View style={styles.container}>
 
-			<List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
-		        <FlatList
-		          data={[{key: '01', item: 'Notifications'},
-		          		 {key: '02', item: 'Sounds'},
-		          		{key: '03', item: 'Languages', value: 'English'},
-		          		 ]}
-		          renderItem={({ item }) => (
-		            <ListItem
-		            	title={`${item.item}`}
-		              	rightTitle={item.value}
-		              	containerStyle={{ borderBottomWidth: 0 }}
-		            />
-		          )}
-		          keyExtractor={item => item.key}
-		          ItemSeparatorComponent={this.renderSeparator}
-		        />
-	      	</List>
+			<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
+				{
+					settings.map((item, i) => (
+            <ListItem
+            	key={i}
+            	title={`${item.item}`}
+            	rightTitle={`${item.value}`}
+            	titleStyle={{ color: 'black' }}
+            />
+          ))
+				}
+    	</List>
 
 			<List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
 		        {
