@@ -4,16 +4,26 @@ import {StyleSheet, Text, View, Button, Image, StatusBar,
 import { List, ListItem, SearchBar} from 'react-native-elements';
 
 export default class Tasks extends React.Component {
-	static navigationOptions = ({ navigation }) => ({
-    title: `Tasks`,
-		tabBarLabel: 'Tasks',
-		tabBarIcon: ({tintColor}) => (
-			<Image 
-				source={require('../../images/tasks_icon.png')}
-				style={{width: 30, height: 30, tintColor: tintColor}}
-			/>
-		)
-	});
+	static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state
+    return {
+      title: `Tasks`,
+      tabBarLabel: 'Tasks',
+      tabBarIcon: ({tintColor}) => {
+        return <Image 
+          source={require('../../images/tasks_icon.png')}
+          style={{width: 30, height: 30, tintColor: tintColor}}
+        />;
+      },
+      headerStyle: {
+        backgroundColor: '#04205F'
+      },
+      headerTitleStyle: {
+        color: '#FFF'
+      }
+    };  
+
+	};
 
 	constructor(props) {
 		super(props);
@@ -157,12 +167,9 @@ export default class Tasks extends React.Component {
   };
 
 render() {
-    // const {header, description, closed, img, priority} = data;
-    // const {regn, acType, ETA, ETD, bay, ... others} = data.plane;
-    
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content"/>
+        <StatusBar barStyle="light-content"/>
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (

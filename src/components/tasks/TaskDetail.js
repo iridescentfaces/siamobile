@@ -89,10 +89,17 @@ export default class TaskDetail extends React.Component {
 					style={{width: 30, height: 30, tintColor: tintColor}}
 				/>;
 			},
-			headerRight: (
-				<Button title="Update"
+			headerStyle: {
+        backgroundColor: '#04205F'
+      },
+      headerTitleStyle: {
+        color: '#FFF'
+      },
+      headerTintColor: 'white',
+     	headerRight: (
+				<Button title="Update" color='white'
 												onPress={() => params.handleSave()} />
-			)
+			),
 		};	
 	};
 

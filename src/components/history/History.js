@@ -12,7 +12,13 @@ export default class History extends React.Component {
 				source={require('../../images/history_icon.png')}
 				style={{width: 30, height: 30, tintColor: tintColor}}
 			/>
-		)
+		),
+		headerStyle: {
+        	backgroundColor: '#04205F'
+      	},
+      	headerTitleStyle: {
+        	color: '#FFF'
+      	}
 	}
 
 	render() {

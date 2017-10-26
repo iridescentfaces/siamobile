@@ -15,6 +15,12 @@ export default class Settings extends React.Component {
 				style={{width: 30, height: 30, tintColor: tintColor}}
 			/>
 		),
+		headerStyle: {
+        	backgroundColor: '#04205F'
+      	},
+      	headerTitleStyle: {
+        	color: '#FFF'
+      	}
 
 	}
 
