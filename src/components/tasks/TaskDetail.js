@@ -119,12 +119,13 @@ export default class TaskDetail extends React.Component {
 	};
 
 	render() {
+		// const data = this.props.navigation.state.params;
 		const {header, description, closed, img, priority} = data;
 		const {regn, acType, ETA, ETD, bay, ... others} = data.plane;
-		const {history} = data.updates;
-		const {spares} = data.spares;
+		const history = data.updates;
+		const spares = data.spares;
 		// const {first, last, title} = this.props.navigation.state.params.name;
-		// console.log(this.props.navigation.state.params);
+		console.log(this.props.navigation.state.params);
 
 		
 		historyContents = data.updates.map(function(update) {
@@ -156,7 +157,7 @@ export default class TaskDetail extends React.Component {
 		if (priority === 1) {
 				priorityValue = "High";
 		} else if (priority === 2) {
-				priorityValue = "Extremely High";
+				priorityValue = "Critical";
 		} else {
 				priorityValue = "Normal";
 		}
@@ -167,10 +168,17 @@ export default class TaskDetail extends React.Component {
 			{key: '08', title: "Pictures", value: img},
 		]
 
+  	eta_date = ETA.slice(0,10);
+    eta_time = ETA.slice(-9,-4);
+    formatted_ETA = eta_time.concat("  ", eta_date);
+  	etd_date = ETD.slice(0,10);
+    etd_time = ETD.slice(-9,-4);
+    formatted_ETD = etd_time.concat("  ", etd_date);
+
 		const detail02 = [
 			{key: '02', title: "Priority", value: priorityValue},
-			{key: '03', title: "ETA", value: ETA},
-			{key: '04', title: "ETD", value: ETD},
+			{key: '03', title: "ETA", value: formatted_ETA},
+			{key: '04', title: "ETD", value: formatted_ETD},
 			{key: '05', title: "Reg. No.", value: regn},
 			{key: '06', title: "AC Type", value: acType},
 			{key: '07', title: "Bay Location", value: bay},
@@ -225,11 +233,14 @@ export default class TaskDetail extends React.Component {
 					
 					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
 						{
-							detail03.map((item, i) => (
+							history.map((item, i) => (
+						  	date = `${item.created}`.slice(0,10),
+						    time = `${item.created}`.slice(-9,-4),
+						    formatted_time = time.concat("  ", date),
 		            <ListItem
 		            	key={i}
-		            	title={`${item.value}`}
-		            	subtitle={`${item.created}`}
+		            	title={`${item.details}`}
+		            	subtitle={date}
 		            	titleStyle={{ color: 'black' }}
 		            	// rightTitleStyle={{ color: 'black' }}
 		            	hideChevron
@@ -242,13 +253,14 @@ export default class TaskDetail extends React.Component {
 					
 					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
 						{
-							detail04.map((item, i) => (
+							spares.map((item, i) => (
+								name = `${item.spare.name}`.charAt(0).toUpperCase() + `${item.spare.name}`.slice(1),
 		            <ListItem
 		            	key={i}
-		            	title={`${item.value}`}
-		            	// rightTitle={`${item.value}`}
+		            	title={name}
+		            	rightTitle={`${item.quantity}`}
 		            	titleStyle={{ color: 'black' }}
-		            	// rightTitleStyle={{ color: 'black' }}
+		            	rightTitleStyle={{ color: 'black' }}
 		            	hideChevron
 		            />
 	            ))

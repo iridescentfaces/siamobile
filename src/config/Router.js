@@ -45,7 +45,7 @@ var MainScreenNavigator = TabNavigator({
     tabBarPosition: 'bottom',
     swipeEnabled: false,
     tabBarOptions: {
-      activeTintColor: 'darkblue',
+      activeTintColor: '#04205F',
       // activeBackgroundColor: 'darkblue',
       // inactiveTintColor: 'black',
       // inactiveBackgroundColor: 'blue',

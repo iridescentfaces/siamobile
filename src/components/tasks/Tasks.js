@@ -41,14 +41,17 @@ export default class Tasks extends React.Component {
     const { page, seed } = this.state;
     // console.log(this.state);
     // headers to include "Authorisation: Token (token)"
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+    const url = `http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/techdefects?id=4`;
+    // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
     this.setState({ loading: true });
 
     fetch(url)
       .then(res => res.json())
       .then(res => {
+        console.log(res);
         this.setState({
-          data: page === 1 ? res.results : [...this.state.data, ...res.results],
+          data: res,
+          // data: page === 1 ? res.results : [...this.state.data, ...res.results],
           error: res.error || null,
           loading: false,
           refreshing: false
@@ -74,16 +77,16 @@ export default class Tasks extends React.Component {
     );
   };
 
-  handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
+  // handleLoadMore = () => {
+  //   this.setState(
+  //     {
+  //       page: this.state.page + 1
+  //     },
+  //     () => {
+  //       this.makeRemoteRequest();
+  //     }
+  //   );
+  // };
 
   renderSeparator = () => {
     return (
@@ -118,28 +121,51 @@ export default class Tasks extends React.Component {
     );
   };
 
+  colorStyle = (number) => {
+    if (number === 1) {
+      return {
+        color: 'orange'
+      }
+    } else if (number === 2) {
+      return {
+        color: 'red'
+      }
+    } else {
+      return {
+        color: 'green'
+      }
+    }
+  };
+
 render() {
+    // const {header, description, closed, img, priority} = data;
+    // const {regn, acType, ETA, ETD, bay, ... others} = data.plane;
+    
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content"/>
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
+            date = `${item.plane.ETD}`.slice(5,10),
+            time = `${item.plane.ETD}`.slice(-9,-4),
             <ListItem
-              title={`${item.name.first} ${item.name.last}`}
-              subtitle={item.email}
+              title={time.concat("  ", date)}
+              titleStyle={{ fontWeight: '700', fontSize: 20 }}
+              rightTitle={(item.priority === 1) ? `High` : (item.priority === 2) ? `Critical` : `Normal` }
+              rightTitleStyle={this.colorStyle(item.priority)}
               containerStyle={{ backgroundColor: '#FFF', borderBottomWidth: 0 }}
               onPress={() => this.onLearnMore(item)}
             />
           )}
-          keyExtractor={item => item.email}
+          keyExtractor={item => item.id}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
           ListFooterComponent={this.renderFooter}
           onRefresh={this.handleRefresh}
           refreshing={this.state.refreshing}
-          onEndReached={this.handleLoadMore}
-          onEndReachedThreshold={10}
+          // onEndReached={this.handleLoadMore}
+          onEndReachedThreshold={20}
         />
       </View>
     );
