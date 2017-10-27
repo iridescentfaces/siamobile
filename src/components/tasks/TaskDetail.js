@@ -119,7 +119,7 @@ export default class TaskDetail extends React.Component {
 		} else {
 			console.log("No message was sent.");
 		}
-
+		this.props.navigation.goBack();
 	}
 
 	saveDetails = () => {
@@ -165,7 +165,7 @@ export default class TaskDetail extends React.Component {
 	      .then(res => {
 	      	console.log("res: ");
 	      	console.log(res);
-	      	{ this.state.error === null ? alert('Image uploaded.') : console.log(this.state.error); }
+	      	{ this.state.error === null ? alert('Task Updated.') : console.log(this.state.error); }
 	      })
 	      .catch(error => {
 	        this.setState({ error });
@@ -187,7 +187,7 @@ export default class TaskDetail extends React.Component {
 	    	.then(res => res.json())
 	      .then(res => {
 	        console.log(res);
-	        { this.state.error === null ? alert('Message sent.') : alert(this.state.error); }
+	        { this.state.error === null ? console.log('Message sent.') : alert(this.state.error); }
 	      })
 	      .catch(error => {
 	        this.setState({ error });
@@ -196,7 +196,8 @@ export default class TaskDetail extends React.Component {
 			console.log("No message was sent.");
 		}
 
-		// this.props.navigation.navigate('Tasks');
+		this.props.navigation.goBack();
+				// this.props.navigation.navigate('Tasks');
 	}
 
 	componentDidMount() {
