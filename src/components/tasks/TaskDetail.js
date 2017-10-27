@@ -36,7 +36,93 @@ export default class TaskDetail extends React.Component {
 		imageName: null,
 	}
 
-	saveDetails = (first) => {
+	closeIssue = () => {
+		const { image, message } = this.state;
+    const { id } = this.props.navigation.state.params;
+
+       const url = `http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/defect/${id}`;
+    const second_url = `http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/update/${id}`;
+
+    if (this.state.image !== null) {
+    	const form = new FormData();
+    	form.append('img', {
+    		uri: image,
+    		type: 'image/jpg',
+    		name: `${this.state.imageName}.jpg`,
+    	})
+
+    	form.append('closed', true);
+
+    	if (typeof form.type === 'string') {
+			    headers['content-type'] = form.type;
+			}
+
+	    fetch(url, {
+	    	method: 'PATCH',
+	    	headers: {
+	    		'Accept': 'application/json',
+	    	},
+	    	body: form
+
+	    })
+	      .then(res => res.json())
+	      .then(res => {
+	      	console.log("res: ");
+	      	console.log(res);
+	      	{ this.state.error === null ? alert('Issue Closed.') : console.log(this.state.error); }
+	      })
+	      .catch(error => {
+	        this.setState({ error });
+	      });
+    } else {
+	    fetch(url, {
+	    	method: 'PATCH',
+	    	headers: {
+	    		'Accept': 'application/json',
+	    		'Content-Type': 'application/json',
+	    	},
+	    	body: JSON.stringify({
+	    		closed: true,
+	    	})
+	    })
+	      .then(res => res.json())
+	      .then(res => {
+	      	console.log("res: ");
+	      	console.log(res);
+	      	{ this.state.error === null ? alert('Issue Closed.') : console.log(this.state.error); }
+	      })
+	      .catch(error => {
+	        this.setState({ error });
+	      });
+    }
+
+    if (this.state.message !== null) {
+	    fetch(second_url, {
+	    	method: 'PUT',
+	    	headers: {
+	    		'Accept': 'application/json',
+	    		'Content-Type': 'application/json',
+	    	},
+	    	body: JSON.stringify({
+	    		author: 4,
+	    		details: message,
+	    	})
+	    })
+	    	.then(res => res.json())
+	      .then(res => {
+	        console.log(res);
+	        { this.state.error === null ? console.log('Message Sent.') : alert(this.state.error); }
+	      })
+	      .catch(error => {
+	        this.setState({ error });
+	      });
+		} else {
+			console.log("No message was sent.");
+		}
+
+	}
+
+	saveDetails = () => {
 		console.log(this.state.message);
 
     const { image, message } = this.state;
@@ -84,27 +170,7 @@ export default class TaskDetail extends React.Component {
 	      .catch(error => {
 	        this.setState({ error });
 	      });
-    } else {
-	    fetch(url, {
-	    	method: 'PATCH',
-	    	headers: {
-	    		'Accept': 'application/json',
-	    		'Content-Type': 'application/json',
-	    	},
-	    	body: JSON.stringify({
-	    		closed: true,
-	    	})
-	    })
-	      .then(res => res.json())
-	      .then(res => {
-	      	console.log("res: ");
-	      	console.log(res);
-	      	{ this.state.error === null ? alert('Closed Issue.') : console.log(this.state.error); }
-	      })
-	      .catch(error => {
-	        this.setState({ error });
-	      });
-    }
+    } 
 
     if (this.state.message !== null) {
 	    fetch(second_url, {
@@ -346,6 +412,14 @@ export default class TaskDetail extends React.Component {
             }
 					</TouchableOpacity>
 
+          <TouchableOpacity
+          	style={styles.closeContainer}
+          	onPress={this.closeIssue}
+          >
+
+					<Text style={styles.closeText}>CLOSE ISSUE</Text>
+					</TouchableOpacity>
+
 				</ScrollView>
 			</KeyboardAvoidingView>
 		);
@@ -387,6 +461,17 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     color: 'grey',
+    fontWeight: '500',
+    fontSize: 16
+  },
+  closeContainer: {
+    backgroundColor: '#FF3B30',
+    padding: 15,
+    marginTop: 10
+  },
+  closeText: {
+    textAlign: 'center',
+    color: '#FFFFFF',
     fontWeight: '500',
     fontSize: 16
   }
