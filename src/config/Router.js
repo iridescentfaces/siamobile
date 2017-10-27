@@ -9,7 +9,7 @@ import Tasks from '../components/tasks/Tasks';
 import History from '../components/history/History';
 import Settings from '../components/settings/Settings';
 import TaskDetail from '../components/tasks/TaskDetail';
-import TaskUpdate from '../components/tasks/TaskUpdate';
+import HistoryDetail from '../components/history/HistoryDetail';
 
 export const TaskStack = StackNavigator({
   Tasks: {
@@ -17,11 +17,6 @@ export const TaskStack = StackNavigator({
   },
   TaskDetail: {
     screen: TaskDetail,
-  },
-  TaskUpdate: {
-    screen: TaskUpdate,
-    mode: 'modal',
-    animationType: 'slide',
   }
 });
 
@@ -34,6 +29,9 @@ export const SettingsStack = StackNavigator({
 export const HistoryStack = StackNavigator({
   History: {
     screen: History,
+  },
+  HistoryDetail: {
+    screen: HistoryDetail,
   }
 });
 

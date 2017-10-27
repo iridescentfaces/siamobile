@@ -8,7 +8,7 @@ export default class TaskDetail extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		const { params = {} } = navigation.state
 		return {
-			tabBarLabel: 'Tasks',
+			tabBarLabel: 'History',
 			tabBarIcon: ({tintColor}) => {
 				return <Image 
 					source={require('../../images/tasks_icon.png')}
@@ -22,10 +22,6 @@ export default class TaskDetail extends React.Component {
         color: '#FFF'
       },
       headerTintColor: 'white',
-     	headerRight: (
-				<Button title="Update" color='white'
-												onPress={() => params.handleSave()} />
-			),
 		};	
 	};
 
@@ -35,67 +31,8 @@ export default class TaskDetail extends React.Component {
 		error: null,
 	}
 
-	saveDetails = (first) => {
-		console.log(this.state.message);
-
-    const { image, message } = this.state;
-    const { id } = this.props.navigation.state.params;
-    console.log(id);
-    // console.log(this.state);
-    // headers to include "Authorisation: Token (token)"
-    const url = `http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/defect/${id}`;
-    const second_url = `http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/update/${id}`;
-    // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-
-    fetch(url, {
-    	method: 'PATCH',
-    	headers: {
-    		'Accept': 'application/json',
-    		'Content-Type': 'multipart/form-data; boundary=6ff46e0b6b5148d984f148b6542e5a5d',
-    	},
-    	body: JSON.stringify({
-    		closed: true,
-    		// img: image,
-    	})
-    })
-      .then(res => res.json())
-      .then(res => {
-      	console.log("res: ");
-      	console.log(res);
-      })
-      .catch(error => {
-        this.setState({ error });
-        { this.state.error === null ? console.log('Updated') : console.log(this.state.error); }
-      });
-    
-    if (this.state.message !== null) {
-	    fetch(second_url, {
-	    	method: 'PUT',
-	    	headers: {
-	    		'Accept': 'application/json',
-	    		'Content-Type': 'application/json',
-	    	},
-	    	body: JSON.stringify({
-	    		author: 4,
-	    		details: message,
-	    	})
-	    })
-	    	.then(res => res.json())
-	      .then(res => {
-	        console.log(res);
-	        { this.state.error === null ? alert('Updated') : alert(this.state.error); }
-	      })
-	      .catch(error => {
-	        this.setState({ error });
-	      });
-			// this.props.navigation.navigate('TaskUpdate', first);
-		} else {
-			console.log("No message was sent.");
-		}
-	}
-
 	componentDidMount() {
-		this.props.navigation.setParams({ handleSave: this.saveDetails });
+		
 	}
 
 	renderSeparator = () => {
@@ -111,40 +48,6 @@ export default class TaskDetail extends React.Component {
 	);
 	};
 
-	uploadImage = () => {
-			const options = {
-			  title: 'Upload Photo',
-			  quality: 0.5,
-			  storageOptions: {
-			    skipBackup: true,
-			    path: 'images'
-			  }
-			};
-			ImagePicker.showImagePicker(options, (response) => {
-			  console.log('Response = ', response);
-
-			  if (response.didCancel) {
-			    console.log('User cancelled image picker');
-			  }
-			  else if (response.error) {
-			    console.log('ImagePicker Error: ', response.error);
-			  }
-			  else if (response.customButton) {
-			    console.log('User tapped custom button: ', response.customButton);
-			  }
-			  else {
-			  	let source = { uri: response.uri };
-			    // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-    // You can also display the image using data:
-    // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-				  this.setState({
-				   	image: source
-				  });
-      	}
-			});
-
-		}
 
 	render() {
 		const data = this.props.navigation.state.params;
@@ -243,44 +146,6 @@ export default class TaskDetail extends React.Component {
 	            ))
 						}
 					</List>
-					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
-													margin: 5 }}>Spares</Text>
-					
-					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
-						{
-							spares.map((item, i) => (
-								name = `${item.spare.name}`.charAt(0).toUpperCase() + `${item.spare.name}`.slice(1),
-		            <ListItem
-		            	key={i}
-		            	title={name}
-		            	rightTitle={`${item.quantity}`}
-		            	titleStyle={{ color: 'black' }}
-		            	rightTitleStyle={{ color: 'black' }}
-		            	hideChevron
-		            />
-	            ))
-						}
-					</List>
-					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
-													margin: 5 }}>Additional Details</Text>
-          <TextInput
-            placeholder="I would like to update that..."
-            placeholderTextColor="grey"
-            onChangeText={(message) => this.setState({message})}
-            style={styles.input}
-          />
-          <Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
-													margin: 5 }}>Upload Photo</Text>
-          <TouchableOpacity
-          	style={styles.buttonContainer}
-          	onPress={this.uploadImage}
-          >
-
-					{ this.state.image === null ? <Image source={require('../../images/upload_icon.png')} 
-																					style={{width: 30, height: 30}}/> 
-																			: <Image style={styles.ImageContainer} source={this.state.image} />
-            }
-					</TouchableOpacity>
 
 				</ScrollView>
 			</KeyboardAvoidingView>

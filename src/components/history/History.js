@@ -38,6 +38,11 @@ export default class History extends React.Component {
 		this.makeRemoteRequest();
 	}
 
+  onLearnMore = (item) => {
+    console.log(item);
+    this.props.navigation.navigate('HistoryDetail', item);
+  }
+
 	makeRemoteRequest = () => {
     const { page, seed } = this.state;
     // console.log(this.state);
@@ -129,7 +134,7 @@ export default class History extends React.Component {
 	              rightTitle={time.concat("  ", formatted_date)}
 	              // rightTitleStyle={this.colorStyle(item.priority)}
 	              containerStyle={{ backgroundColor: '#FFF', borderBottomWidth: 0 }}
-	              // onPress={() => this.onLearnMore(item)}
+	              onPress={() => this.onLearnMore(item)}
 	            />
 	          )}
 	          keyExtractor={item => item.id}
