@@ -108,6 +108,7 @@ export default class TaskDetail extends React.Component {
 		            	key={i}
 		            	title={`${item.title}`}
 		            	rightTitle={`${item.value}`.toUpperCase()}
+		            	rightTitleNumberOfLines={3}
 		            	titleStyle={{ color: 'black' }}
 		            	rightTitleStyle={{ color: 'black' }}
 		            	hideChevron
@@ -121,13 +122,16 @@ export default class TaskDetail extends React.Component {
 		            <ListItem
 		            	key={i}
 		            	title={`${item.title}`}
-		            	rightTitle={`${item.value}`.toUpperCase()}
+		            	// rightTitle={`${item.value}`.toUpperCase()}
 		            	titleStyle={{ color: 'black' }}
-		            	rightTitleStyle={{ color: 'black' }}
+		            	// rightTitleStyle={{ color: 'black' }}
 		            	hideChevron
 		            />
 	            ))
 						}
+					</List>
+					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0, alignItems: 'center'}}>
+						<Image style={{width:200, height: 200, flex: 1}} source={{ uri: image_url}}/>
 					</List>
 					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
 													margin: 5 }}>Information</Text>

@@ -56,7 +56,7 @@ export default class TaskDetail extends React.Component {
     		name: `${this.state.imageName}.jpg`,
     	})
 
-    	form.append('closed', true);
+    	// form.append('closed', true);
 
     	if (typeof form.type === 'string') {
 			    headers['content-type'] = form.type;
@@ -213,6 +213,9 @@ export default class TaskDetail extends React.Component {
 			{key: '01', title: "Picture", value: img},
 		]
 
+		const image_url = "http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com" + img;
+		console.log(image_url);
+
   	eta_date = ETA.slice(0,10);
     eta_time = ETA.slice(11,16);
     formatted_ETA = eta_time.concat("  ", eta_date);
@@ -242,6 +245,7 @@ export default class TaskDetail extends React.Component {
 		            	key={i}
 		            	title={`${item.title}`}
 		            	rightTitle={`${item.value}`.toUpperCase()}
+		            	rightTitleNumberOfLines={3}
 		            	titleStyle={{ color: 'black' }}
 		            	rightTitleStyle={{ color: 'black' }}
 		            	hideChevron
@@ -250,19 +254,21 @@ export default class TaskDetail extends React.Component {
 						}
 					</List>
 					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
-						{
+					 {
 							detail_img.map((item, i) => (
 		            <ListItem
 		            	key={i}
 		            	title={`${item.title}`}
-		            	rightTitle={`${item.value}`.toUpperCase()}
+		            	// rightTitle={`${item.value}`.toUpperCase()}
 		            	titleStyle={{ color: 'black' }}
-		            	rightTitleStyle={{ color: 'black' }}
+		            	// rightTitleStyle={{ color: 'black' }}
 		            	hideChevron
 		            />
 	            ))
 						}
-
+					</List>
+					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0, alignItems: 'center'}}>
+						<Image style={{width:200, height: 200, flex: 1}} source={{ uri: image_url}}/>
 					</List>
 					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
 													margin: 5 }}>Information</Text>
