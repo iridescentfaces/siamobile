@@ -47,27 +47,52 @@ export default class TaskDetail extends React.Component {
     const second_url = `http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/update/${id}`;
     // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
 
-    fetch(url, {
-    	method: 'PATCH',
-    	headers: {
-    		'Accept': 'application/json',
-    		'Content-Type': 'multipart/form-data; boundary=6ff46e0b6b5148d984f148b6542e5a5d',
-    	},
-    	body: JSON.stringify({
-    		closed: true,
-    		// img: image,
-    	})
-    })
-      .then(res => res.json())
-      .then(res => {
-      	console.log("res: ");
-      	console.log(res);
-      })
-      .catch(error => {
-        this.setState({ error });
-        { this.state.error === null ? console.log('Updated') : console.log(this.state.error); }
-      });
-    
+    if (this.state.image !== null) {
+	    fetch(url, {
+	    	method: 'PATCH',
+	    	headers: {
+	    		'Accept': 'application/json',
+	    		'Content-Type': 'application/json',
+	    		// 'Content-Type': 'multipart/form-data; boundary=6ff46e0b6b5148d984f148b6542e5a5d',
+	    	},
+	    	body: JSON.stringify({
+	    		closed: true,
+	    		img: image,
+	    	})
+	    })
+	      .then(res => res.json())
+	      .then(res => {
+	      	console.log("res: ");
+	      	console.log(res);
+	      })
+	      .catch(error => {
+	        this.setState({ error });
+	        { this.state.error === null ? console.log('Updated') : console.log(this.state.error); }
+	      });
+    } else {
+	    fetch(url, {
+	    	method: 'PATCH',
+	    	headers: {
+	    		'Accept': 'application/json',
+	    		'Content-Type': 'application/json',
+	    		// 'Content-Type': 'multipart/form-data; boundary=6ff46e0b6b5148d984f148b6542e5a5d',
+	    	},
+	    	body: JSON.stringify({
+	    		closed: true,
+	    		// img: image,
+	    	})
+	    })
+	      .then(res => res.json())
+	      .then(res => {
+	      	console.log("res: ");
+	      	console.log(res);
+	      })
+	      .catch(error => {
+	        this.setState({ error });
+	        { this.state.error === null ? console.log('Updated') : console.log(this.state.error); }
+	      });
+    }
+
     if (this.state.message !== null) {
 	    fetch(second_url, {
 	    	method: 'PUT',
