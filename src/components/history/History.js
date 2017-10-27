@@ -129,7 +129,7 @@ export default class History extends React.Component {
 	            formatted_date = day.concat("/", month),
 	            time = `${item.dateResolved}`.slice(11,16),
 	            <ListItem
-	              title={`${item.header}`}
+	              title={`${item.header}`.toUpperCase()}
 	              // titleStyle={{ fontWeight: '700', fontSize: 20 }}
 	              rightTitle={time.concat("  ", formatted_date)}
 	              // rightTitleStyle={this.colorStyle(item.priority)}

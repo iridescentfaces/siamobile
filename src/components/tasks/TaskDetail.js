@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, Image, PixelRatio, KeyboardAvoidingView,
-				TouchableOpacity, FlatList, ScrollView, TextInput} from 'react-native';
+				TouchableOpacity, FlatList, ScrollView, TextInput, ListView} from 'react-native';
 import { List, ListItem} from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 
@@ -33,6 +33,7 @@ export default class TaskDetail extends React.Component {
 		image: null,
 		message: null,
 		error: null,
+		imageName: null,
 	}
 
 	saveDetails = (first) => {
@@ -48,26 +49,40 @@ export default class TaskDetail extends React.Component {
     // const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
 
     if (this.state.image !== null) {
+    	const form = new FormData();
+    	form.append('img', {
+    		uri: image,
+    		type: 'image/jpg',
+    		name: `${this.state.imageName}.jpg`,
+    	})
+
+    	form.append('closed', true);
+
+    	if (typeof form.type === 'string') {
+			    headers['content-type'] = form.type;
+			}
+
 	    fetch(url, {
 	    	method: 'PATCH',
 	    	headers: {
 	    		'Accept': 'application/json',
-	    		'Content-Type': 'application/json',
+	    		// 'Content-Type': 'application/json',
 	    		// 'Content-Type': 'multipart/form-data; boundary=6ff46e0b6b5148d984f148b6542e5a5d',
 	    	},
-	    	body: JSON.stringify({
-	    		closed: true,
-	    		img: image,
-	    	})
+	    	body: form
+	    	// body: JSON.stringify({
+	    	// 	closed: true,
+	    	// 	img: image,
+	    	// })
 	    })
 	      .then(res => res.json())
 	      .then(res => {
 	      	console.log("res: ");
 	      	console.log(res);
+	      	{ this.state.error === null ? alert('Image uploaded.') : console.log(this.state.error); }
 	      })
 	      .catch(error => {
 	        this.setState({ error });
-	        { this.state.error === null ? console.log('Updated') : console.log(this.state.error); }
 	      });
     } else {
 	    fetch(url, {
@@ -75,21 +90,19 @@ export default class TaskDetail extends React.Component {
 	    	headers: {
 	    		'Accept': 'application/json',
 	    		'Content-Type': 'application/json',
-	    		// 'Content-Type': 'multipart/form-data; boundary=6ff46e0b6b5148d984f148b6542e5a5d',
 	    	},
 	    	body: JSON.stringify({
 	    		closed: true,
-	    		// img: image,
 	    	})
 	    })
 	      .then(res => res.json())
 	      .then(res => {
 	      	console.log("res: ");
 	      	console.log(res);
+	      	{ this.state.error === null ? alert('Closed Issue.') : console.log(this.state.error); }
 	      })
 	      .catch(error => {
 	        this.setState({ error });
-	        { this.state.error === null ? console.log('Updated') : console.log(this.state.error); }
 	      });
     }
 
@@ -108,15 +121,16 @@ export default class TaskDetail extends React.Component {
 	    	.then(res => res.json())
 	      .then(res => {
 	        console.log(res);
-	        { this.state.error === null ? alert('Updated') : alert(this.state.error); }
+	        { this.state.error === null ? alert('Message sent.') : alert(this.state.error); }
 	      })
 	      .catch(error => {
 	        this.setState({ error });
 	      });
-			// this.props.navigation.navigate('TaskUpdate', first);
 		} else {
 			console.log("No message was sent.");
 		}
+
+		// this.props.navigation.navigate('Tasks');
 	}
 
 	componentDidMount() {
@@ -173,10 +187,11 @@ export default class TaskDetail extends React.Component {
 
 	render() {
 		const data = this.props.navigation.state.params;
-		const {header, description, closed, img, priority} = data;
+		const {header, description, closed, img, priority, id} = data;
 		const {regn, acType, ETA, ETD, bay, ... others} = data.plane;
 		const history = data.updates;
 		const spares = data.spares;
+		this.state.imageName = id;
 		// console.log(this.props.navigation.state.params);
 
 		let priorityValue = "null";
@@ -192,7 +207,10 @@ export default class TaskDetail extends React.Component {
 		const detail01 = [
 			{key: '01', title: "Defect", value: header},
 			{key: '02', title: "Description", value: description},
-			{key: '08', title: "Picture", value: img},
+		]
+
+		const detail_img = [
+			{key: '01', title: "Picture", value: img},
 		]
 
   	eta_date = ETA.slice(0,10);
@@ -230,6 +248,21 @@ export default class TaskDetail extends React.Component {
 		            />
 	            ))
 						}
+					</List>
+					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
+						{
+							detail_img.map((item, i) => (
+		            <ListItem
+		            	key={i}
+		            	title={`${item.title}`}
+		            	rightTitle={`${item.value}`.toUpperCase()}
+		            	titleStyle={{ color: 'black' }}
+		            	rightTitleStyle={{ color: 'black' }}
+		            	hideChevron
+		            />
+	            ))
+						}
+
 					</List>
 					<Text style={{ fontWeight: '700', fontSize: 16, color: 'grey',
 													margin: 5 }}>Information</Text>

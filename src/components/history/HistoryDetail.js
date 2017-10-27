@@ -70,8 +70,14 @@ export default class TaskDetail extends React.Component {
 		const detail01 = [
 			{key: '01', title: "Defect", value: header},
 			{key: '02', title: "Description", value: description},
-			{key: '08', title: "Picture", value: img},
 		]
+
+		const detail_img = [
+			{key: '01', title: "Picture", value: img},
+		]
+
+		const image_url = "http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com" + img;
+		console.log(image_url);
 
   	eta_date = ETA.slice(0,10);
     eta_time = ETA.slice(11,16);
@@ -98,6 +104,20 @@ export default class TaskDetail extends React.Component {
 					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
 						{
 							detail01.map((item, i) => (
+		            <ListItem
+		            	key={i}
+		            	title={`${item.title}`}
+		            	rightTitle={`${item.value}`.toUpperCase()}
+		            	titleStyle={{ color: 'black' }}
+		            	rightTitleStyle={{ color: 'black' }}
+		            	hideChevron
+		            />
+	            ))
+						}
+					</List>
+					<List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
+						{
+							detail_img.map((item, i) => (
 		            <ListItem
 		            	key={i}
 		            	title={`${item.title}`}
