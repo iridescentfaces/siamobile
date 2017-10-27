@@ -130,6 +130,7 @@ export default class History extends React.Component {
 	            time = `${item.dateResolved}`.slice(11,16),
 	            <ListItem
 	              title={`${item.header}`.toUpperCase()}
+                titleNumberOfLines={2}
 	              // titleStyle={{ fontWeight: '700', fontSize: 20 }}
 	              rightTitle={time.concat("  ", formatted_date)}
 	              // rightTitleStyle={this.colorStyle(item.priority)}

@@ -183,6 +183,8 @@ render() {
               titleStyle={{ fontWeight: '700', fontSize: 20 }}
               rightTitle={(item.priority === 1) ? `Critical` : (item.priority === 2) ? `High` : `Normal` }
               rightTitleStyle={this.colorStyle(item.priority)}
+              subtitleNumberOfLines={3}
+              subtitle={item.header}
               containerStyle={{ backgroundColor: '#FFF', borderBottomWidth: 0 }}
               onPress={() => this.onLearnMore(item)}
             />
