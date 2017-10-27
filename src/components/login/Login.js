@@ -77,37 +77,37 @@ export default class Login extends React.Component {
   }
 
   login = () => {
-      this.props.navigation.navigate('Home');
+      // this.props.navigation.navigate('Home');
 
-  //     fetch('http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/auth', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Accept': 'application/json',
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         username: this.state.username,
-  //         password: this.state.password,
-  //       })
-  //     })
+      fetch('http://db-gateway-siacabindefects.b9ad.pro-us-east-1.openshiftapps.com/auth', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: this.state.username,
+          password: this.state.password,
+        })
+      })
 
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.hasOwnProperty('token')) {
-  //         // AsyncStorage.setItem('user', this.state.user)
-  //         // Store Authentication Token
-  //         this.props.navigation.navigate('Tasks')
-  //       }
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.hasOwnProperty('token')) {
+          // AsyncStorage.setItem('user', this.state.user)
+          // Store Authentication Token
+          this.props.navigation.navigate('Home')
+        }
 
-  //       else {
-  //         console.log(res);
-  //         console.log(this.state.username);
-  //         console.log(this.state.password);
-  //         alert("Invalid Login Credentials");
+        else {
+          console.log(res);
+          console.log(this.state.username);
+          console.log(this.state.password);
+          alert("Invalid Login Credentials");
 
-  //       }
-  //     })
-  //     .done();
+        }
+      })
+      .done();
   }
 }
 
